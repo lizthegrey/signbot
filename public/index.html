@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Pledge Never Again</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="neveragain.tech">
+    <meta property="og:description" content="Today we stand together to say: not on our watch, and never again.">
+    <meta property="og:url" content="http://neveragain.tech/">
+    <meta name="twitter:title" content="neveragain.tech">
+    <meta name="twitter:description" content="Today we stand together to say: not on our watch, and never again. ">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <div class="banner">
+      <section class="page-header">
+        <h1 class="project-name">Sign the neveragain.tech Pledge</h1>
+      </section>
+    </div>
+
+<section class="main-content">
+<button id="sign" onclick="firebase.auth().signInWithRedirect(provider)" style="display:none">Sign in using Twitter</button>
+<div id="signed" style="display:none">
+<p>Thanks. We just need a bit more information to create a pull request on your behalf to add/update your pledge.</p>
+<form>
+  <label for="name">Name</label>
+  <input type="text" id="name" /><br/>
+
+  <label for="title">Title</label>
+  <input type="text" id="title" /><br/>
+
+  <label for="affiliation">Affiliation</label>
+  <input type="text" id="affiliation" /><br/>
+
+  <label for="linkProfile">Link my Twitter profile to my signature</label>
+  <input type="checkbox" id="linkProfile" /><br/>
+
+  <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, linkProfile: document.getElementById('linkProfile').checked, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Pledge</button>
+</form>
+</div>
+<div id="thanks" style="display:none">
+<p>Thanks for signing the pledge! We'll manually review the pull request, and updates should go live within 24 hours.</p>
+<p><a href="http://neveragain.tech">Return to the pledge</a>
+</div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB6h3rfKWEIHaOwX0gKUhVnfBLiTDK9q9k",
+    authDomain: "signbot-152613.firebaseapp.com",
+    databaseURL: "https://signbot-152613.firebaseio.com",
+    storageBucket: "signbot-152613.appspot.com",
+    messagingSenderId: "302777097326"
+  };
+  firebase.initializeApp(config);
+
+  var provider = new firebase.auth.TwitterAuthProvider();
+  firebase.auth().getRedirectResult().then(function(result) {
+    if (result.credential) {
+      // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+      // You can use these server side with your app's credentials to access the Twitter API.
+      token = result.credential.accessToken;
+      secret = result.credential.secret;
+      document.getElementById('signed').style.display = 'block';
+    } else {
+      // Not signed in.
+      document.getElementById('sign').style.display = 'block';
+    }
+  }).catch(function(error) {
+    // Error signing in.
+    var errDiv = document.createElement("DIV");
+    errDiv.appendChild(document.createTextNode(error.message));
+    document.body.appendChild(errDiv);
+
+    // Not signed in.
+    document.getElementById('sign').style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
