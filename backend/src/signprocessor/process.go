@@ -111,8 +111,6 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 
-	body := fmt.Sprintf("Twitter user: https://twitter.com/%s\nDisplay name: %s\nURL: %s\nCreated: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\nTagline: %s\nPersonal page: %s", handle, displayName, url, created, followers, following, tweets, egg, description, personalPage)
-
 	var linkMd, affiliationMd, titleMd string
 	if linkProfile {
 		linkMd = fmt.Sprintf("  link: https://twitter.com/%s\n", handle)
@@ -126,6 +124,27 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		titleMd = fmt.Sprintf("  occupation_title: \"%s\"\n", title)
 	}
 	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---", name, linkMd, affiliationMd, titleMd)
+
+	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
+Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
+
+Twitter profile fields:
+Name: %s
+Website: %s
+Tagline: %s
+
+Personal page: %s
+
+Signature file contents:
+%s`,
+		handle,
+		created, followers, following, tweets, egg,
+		displayName,
+		url,
+		description,
+		personalPage,
+		"    " + String.Replace(contents, "\n", "\n    ")
+	)
 
 	// Ensure we are forking from a clean state.
 	g := gh.Git
