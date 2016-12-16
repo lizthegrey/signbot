@@ -22,6 +22,10 @@ This Website helps people sign the <http://neveragain.tech> pledge. The voluntee
 
 By using the Website's pledge-signing function, you represent and warrant that you are legally qualified to enter into and form contracts under applicable law, and that you agree to this Agreement.
 
+### Limitation of Liability
+
+*All warranties, express or implied, are disclaimed. For the avoidance of doubt, this disclaimer includes all warranties arising by operation of law or otherwise, including, without limitation, any and all implied warranties of merchantability, fitness for a particular purpose, non-infringement, no encumbrance, or title, in addition to any warranties arising from a course of dealing, usage, or trade practice. There is no warranty that the Website will meet your requirements, or that the operation of the Website will be uninterrupted or error-free. All implied liability for damages arising out of the furnishing of the Website is also disclaimed, including, without limitation: mistakes, omissions, interruptions, delays, tortious conduct, errors, representations, or other defects arising out of the failure to the furnish the Website, whether caused by acts of commission or omission, or any other damage occurring. The Website's contributors and operators shall not be liable for any indirect, incidental, special, consequential, or punitive damages (including without limitation damages for lost profits or lost revenues), whether caused by their acts or omissions, or those of their agents or representatives.*
+
 ## Privacy Policy
 
 ### Data Collection
@@ -54,7 +58,7 @@ All information the Website collects may be disclosed publicly. Specifically, al
 
 After your submission is approved by volunteers, your name, and, if you chose to submit them, optionally your company affiliation and link, will appear on the pledge website at <http://neveragain.tech>.
 
-The Website is hosted on the [Google Cloud Platform](https://cloud.google.com/), and data is stored in Google-hosted [Firebase](https://firebase.google.com/) database.
+The Website is hosted on Google's [Firebase Hosting](https://firebase.google.com/docs/hosting/) and [Google Cloud Platform](https://cloud.google.com/), and data is stored in a Google-hosted [Firebase](https://firebase.google.com/) database.
 
 ### Data Retention
 
