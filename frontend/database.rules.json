@@ -2,9 +2,28 @@
   "rules": {
     "users": {
       "$user_id": {
-        ".write": "$user_id === auth.uid"
+        ".write": "$user_id == auth.uid",
+        ".validate": "newData.hasChildren(['name', 'title', 'affiliation', 'twitterToken', 'twitterSecret', 'linkProfile'])",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "title": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "affiliation": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "twitterToken": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "twitterSecret": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "linkProfile": {
+          ".validate": "newData.isBoolean()"
+        },
+        "$other": { ".validate": false },
       }
     }
   }
 }
-
