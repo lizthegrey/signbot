@@ -103,6 +103,11 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 
+	if score := Score(handle, displayName, url, created, followers, following, tweets, egg, description); score < 0 {
+		log.Printf("Not creating pull for %s (%s) due to score %d", uid, handle, score)
+		return false
+	}
+
 	body := fmt.Sprintf("Twitter user: https://twitter.com/%s\nDisplay name: %s\nURL: %s\nCreated: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\nTagline: %s", handle, displayName, url, created, followers, following, tweets, egg, description)
 
 	var linkMd, affiliationMd, titleMd string
