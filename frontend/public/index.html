@@ -58,7 +58,7 @@
         <strong>Note:</strong> The name (and affiliation, if any) above
         must accurately represent the owner of this Twitter account;
         if we can't verify that, we can't accept your signature.
-        If you have a homepage, blog, or LinkedIn profile
+        If you have an established homepage, blog, or LinkedIn profile
         that refers to this Twitter account,
         please provide the URL to help us verify you quickly.
       </td>
@@ -69,7 +69,7 @@
     </tr>
     <tr>
       <td colspan=2>
-        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, linkProfile: document.getElementById('linkProfile').checked, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Sign the pledge</button>
+        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Sign the pledge</button>
       </td>
     </tr>
   </table>
