@@ -134,7 +134,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		log.Printf("Error: %v processing %s", err, uid)
 		return false
 	}
-	refStr := fmt.Sprintf("heads/%s", uid)
+	refStr := fmt.Sprintf("heads/signbot/%s", uid)
 	ref.Ref = &refStr
 	if _, _, err = g.UpdateRef(Config.GithubUser, "neveragaindottech.github.io", ref, true); err != nil {
 		if _, _, err = g.CreateRef(Config.GithubUser, "neveragaindottech.github.io", ref); err != nil {
