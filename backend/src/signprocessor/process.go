@@ -55,9 +55,10 @@ func EventLoop() {
 			}
 		} else if event.Type == "put" && strings.HasPrefix(event.Path, "/users/") {
 			uid := strings.TrimPrefix(event.Path, "/users/")
-			details := event.Data.(map[string]interface{})
-			if process(uid, details, t, gh) {
-				f.Child("users").Child(uid).Remove()
+			if details, ok := event.Data.(map[string]interface{}); ok {
+				if process(uid, details, t, gh) {
+					f.Child("users").Child(uid).Remove()
+				}
 			}
 		}
 	}
