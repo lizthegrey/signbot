@@ -21,9 +21,6 @@
     table.form td.note { width: 30em; font-size: 90%; opacity: 0.6; }
   </style>
   <body>
-    <div id="legal">
-      <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. <strong>By continuing, you agree to be bound by them.</strong> They're short, in plain English, and explain what will happen with your data.</p>
-    </div>
     <div class="banner">
       <section class="page-header">
         <h1 class="project-name">Sign the neveragain.tech Pledge</h1>
@@ -31,8 +28,15 @@
     </div>
 
 <section class="main-content">
+<div id="legal">
+  <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. By continuing, you agree to be bound by them. They're short, in plain English, and explain what will happen with your data.</p>
+</div>
+
 <div id="signin" style="display: none">
-  <p><a href="http://neveragain.tech/">Read the text of the pledge</a>.</p>
+  <p>You can also
+  <a href="http://neveragain.tech/">read the text of the pledge here</a>
+  if you haven't already.
+  </p>
 
   <button id="sign" onclick="firebase.auth().signInWithRedirect(provider)">To sign the pledge, sign in using Twitter</button>
 
