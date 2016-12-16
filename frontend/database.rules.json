@@ -3,7 +3,7 @@
     "users": {
       "$user_id": {
         ".write": "$user_id == auth.uid",
-        ".validate": "newData.hasChildren(['name', 'title', 'affiliation', 'twitterToken', 'twitterSecret', 'linkProfile'])",
+        ".validate": "newData.hasChildren(['name', 'title', 'affiliation', 'twitterToken', 'twitterSecret', 'linkProfile', 'link', 'personalPage'])",
         "name": {
           ".validate": "newData.isString() && newData.val().length < 100"
         },
@@ -19,8 +19,14 @@
         "twitterSecret": {
           ".validate": "newData.isString() && newData.val().length < 100"
         },
+        "link": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
         "linkProfile": {
           ".validate": "newData.isBoolean()"
+        },
+        "personalPage": {
+          ".validate": "newData.isString() && newData.val().length < 100"
         },
         "$other": { ".validate": false }
       }
