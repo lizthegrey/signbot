@@ -22,7 +22,7 @@
         "linkProfile": {
           ".validate": "newData.isBoolean()"
         },
-        "$other": { ".validate": false },
+        "$other": { ".validate": false }
       }
     }
   }
