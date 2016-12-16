@@ -125,19 +125,18 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	}
 	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---", name, linkMd, affiliationMd, titleMd)
 
-	body := fmt.Sprintf(
-		"Twitter user: https://twitter.com/%s\n" +
-		"Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\n" +
-		"\n" +
-		"Twitter profile fields:\n" +
-		"Name: %s\n" +
-		"Website: %s\n" +
-		"Tagline: %s\n" +
-		"\n" +
-		"Personal page: %s\n" +
-		"\n" +
-		"Signature file contents:\n" +
-		"%s",
+	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
+Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
+
+Twitter profile fields:
+Name: %s
+Website: %s
+Tagline: %s
+
+Personal page: %s
+
+Signature file contents:
+%s`,
 		handle,
 		created, followers, following, tweets, egg,
 		displayName,
@@ -146,7 +145,6 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		personalPage,
 		"    " + String.Replace(contents, "\n", "\n    ")
 	)
-
 
 	// Ensure we are forking from a clean state.
 	g := gh.Git
