@@ -21,6 +21,9 @@
     table.form td.note { width: 30em; font-size: 90%; opacity: 0.6; }
   </style>
   <body>
+    <div id="legal">
+      <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. <strong>By continuing, you agree to be bound by them.</strong> They're short, in plain English, and explain what will happen with your data.</p>
+    </div>
     <div class="banner">
       <section class="page-header">
         <h1 class="project-name">Sign the neveragain.tech Pledge</h1>
@@ -28,9 +31,16 @@
     </div>
 
 <section class="main-content">
-<button id="sign" onclick="firebase.auth().signInWithRedirect(provider)" style="display:none">Sign in using Twitter</button>
+<div id="signin" style="display: none">
+  <p><a href="http://neveragain.tech/">Read the text of the pledge</a>.</p>
+
+  <button id="sign" onclick="firebase.auth().signInWithRedirect(provider)">To sign the pledge, sign in using Twitter</button>
+
+  <p>If you don't have a Twitter account, see the <a href="https://github.com/neveragaindottech/neveragaindottech.github.io/blob/master/README.md">instructions for other ways to sign the pledge</a>.</p>
+</div>
+
 <div id="signed" style="display:none">
-<p>Thanks. We just need a bit more information to create a pull request on your behalf to add/update your pledge.</p>
+<p>Thanks.  Please fill in the following information to add or update your signature.  Title, affiliation, and link are encouraged but optional.</p>
 <form>
   <table class="form" cellpadding=0 cellspacing=0>
     <tr>
@@ -58,7 +68,7 @@
         <strong>Note:</strong> The name (and affiliation, if any) above
         must accurately represent the owner of this Twitter account;
         if we can't verify that, we can't accept your signature.
-        If you have an established homepage, blog, or LinkedIn profile
+        If you have an established homepage, blog, Keybase, or LinkedIn profile
         that refers to this Twitter account,
         please provide the URL to help us verify you quickly.
       </td>
@@ -78,7 +88,7 @@
 <div id="thanks" style="display:none">
 <p>Thanks for signing the pledge! We'll manually review the pull request, and updates should go live within 24 hours.</p>
 <p>
-<a href="https://twitter.com/intent/tweet?text=I%20signed%20the%20neveragain.tech%20pledge.%20Join%20us.">Tweet to tell people you signed the pledge</a>
+<a href="https://twitter.com/intent/tweet?text=I%20signed%20the%20@neveragaintech%20pledge.%20Join%20us:%20neveragain.tech">Tweet to tell people you signed the pledge</a>
 </p>
 <p><a href="http://neveragain.tech/">Return to the pledge</a>
 </p>
@@ -108,7 +118,7 @@
       document.getElementById('signed').style.display = 'block';
     } else {
       // Not signed in.
-      document.getElementById('sign').style.display = 'block';
+      document.getElementById('signin').style.display = 'block';
     }
   }).catch(function(error) {
     // Error signing in.
@@ -117,7 +127,7 @@
     document.body.appendChild(errDiv);
 
     // Not signed in.
-    document.getElementById('sign').style.display = 'block';
+    document.getElementById('signin').style.display = 'block';
   });
 </script>
 

@@ -111,8 +111,6 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 
-	body := fmt.Sprintf("Twitter user: https://twitter.com/%s\nDisplay name: %s\nURL: %s\nCreated: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\nTagline: %s\nPersonal page: %s", handle, displayName, url, created, followers, following, tweets, egg, description, personalPage)
-
 	var linkMd, affiliationMd, titleMd string
 	if linkProfile {
 		linkMd = fmt.Sprintf("  link: https://twitter.com/%s\n", handle)
@@ -127,6 +125,27 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	}
 	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---", name, linkMd, affiliationMd, titleMd)
 
+	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
+Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
+
+Twitter profile fields:
+Name: %s
+Website: %s
+Tagline: %s
+
+Personal page: %s
+
+Signature file contents:
+%s`,
+		handle,
+		created, followers, following, tweets, egg,
+		displayName,
+		url,
+		description,
+		personalPage,
+		fmt.Sprintf("```\n%s\n```", contents),
+	)
+
 	// Ensure we are forking from a clean state.
 	g := gh.Git
 	ref, _, err := g.GetRef("neveragaindottech", "neveragaindottech.github.io", "heads/master")
@@ -134,7 +153,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		log.Printf("Error: %v processing %s", err, uid)
 		return false
 	}
-	refStr := fmt.Sprintf("heads/%s", uid)
+	refStr := fmt.Sprintf("heads/signbot/%s", uid)
 	ref.Ref = &refStr
 	if _, _, err = g.UpdateRef(Config.GithubUser, "neveragaindottech.github.io", ref, true); err != nil {
 		if _, _, err = g.CreateRef(Config.GithubUser, "neveragaindottech.github.io", ref); err != nil {
@@ -177,7 +196,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 	p := gh.PullRequests
-	branchName := fmt.Sprintf("%s:%s", Config.GithubUser, uid)
+	branchName := fmt.Sprintf("%s:signbot/%s", Config.GithubUser, uid)
 	master := "master"
 	_, _, err = p.Create("neveragaindottech", "neveragaindottech.github.io", &github.NewPullRequest{
 		Title: &desc,
