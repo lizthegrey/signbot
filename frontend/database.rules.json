@@ -2,7 +2,7 @@
   "rules": {
     "users": {
       "$user_id": {
-		  	".write": "$user_id == auth.uid",
+        ".write": "$user_id == auth.uid",
         ".validate": "newData.hasChildren(['name', 'title', 'affiliation', 'twitterToken', 'twitterSecret', 'linkProfile'])",
         "name": {
           ".validate": "newData.isString() && newData.val().length < 100"
