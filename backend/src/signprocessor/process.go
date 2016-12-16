@@ -136,14 +136,14 @@ Tagline: %s
 Personal page: %s
 
 Signature file contents:
-    %s`,
+%s`,
 		handle,
 		created, followers, following, tweets, egg,
 		displayName,
 		url,
 		description,
 		personalPage,
-		strings.Replace(contents, "\n", "\n    ", -1),
+		fmt.Sprintf("```\n%s\n```", contents),
 	)
 
 	// Ensure we are forking from a clean state.
