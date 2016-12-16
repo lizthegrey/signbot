@@ -177,7 +177,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 	p := gh.PullRequests
-	branchName := fmt.Sprintf("%s:%s", Config.GithubUser, uid)
+	branchName := fmt.Sprintf("%s:signbot/%s", Config.GithubUser, uid)
 	master := "master"
 	_, _, err = p.Create("neveragaindottech", "neveragaindottech.github.io", &github.NewPullRequest{
 		Title: &desc,
