@@ -2,8 +2,12 @@ package main
 
 import (
 	"signprocessor"
+
+	"time"
 )
 
 func main() {
-	signprocessor.EventLoop()
+	for ; ; time.Sleep(120 * time.Second) {
+		signprocessor.EventLoop()
+	}
 }

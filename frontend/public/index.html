@@ -14,6 +14,12 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
+  <style>
+    table.form td { border: none; padding: 0.5em 0; }
+    table.form .field { width: 20em; padding-left: 1em; }
+    table.form .field input[type="text"] { width: 100%; }
+    table.form td.note { width: 30em; font-size: 90%; opacity: 0.6; }
+  </style>
   <body>
     <div class="banner">
       <section class="page-header">
@@ -26,24 +32,57 @@
 <div id="signed" style="display:none">
 <p>Thanks. We just need a bit more information to create a pull request on your behalf to add/update your pledge.</p>
 <form>
-  <label for="name">Name</label>
-  <input type="text" id="name" /><br/>
-
-  <label for="title">Title</label>
-  <input type="text" id="title" /><br/>
-
-  <label for="affiliation">Affiliation</label>
-  <input type="text" id="affiliation" /><br/>
-
-  <label for="linkProfile">Link my Twitter profile to my signature</label>
-  <input type="checkbox" id="linkProfile" /><br/>
-
-  <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, linkProfile: document.getElementById('linkProfile').checked, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Pledge</button>
+  <table class="form" cellpadding=0 cellspacing=0>
+    <tr>
+      <td><label for="name">Name:</label></td>
+      <td class="field"><input type="text" id="name"></td>
+    </tr>
+    <tr>
+      <td><label for="title">Title:</label></td>
+      <td class="field"><input type="text" id="title"></td>
+    </tr>
+    <tr>
+      <td><label for="affiliation">Affiliation:</label></td>
+      <td class="field"><input type="text" id="affiliation"></td>
+    </tr>
+    <tr>
+      <td><label for="link">Link your signature to:</label></td>
+      <td class="field"><input type="text" id="link" placeholder="http://"></td>
+    </tr>
+    <tr>
+      <td><label for="linkProfile">Or, link to your Twitter profile</label></td>
+      <td class="field"><input type="checkbox" id="linkProfile" onclick="var checked = document.getElementById('linkProfile').checked; var link = document.getElementById('link'); link.value = checked ? '(link will go to your Twitter profile)' : ''; link.disabled = checked;"></td>
+    </tr>
+    <tr>
+      <td colspan=2 class="note">
+        <strong>Note:</strong> The name (and affiliation, if any) above
+        must accurately represent the owner of this Twitter account;
+        if we can't verify that, we can't accept your signature.
+        If you have an established homepage, blog, or LinkedIn profile
+        that refers to this Twitter account,
+        please provide the URL to help us verify you quickly.
+      </td>
+    </tr>
+    <tr>
+      <td><label for="personalPage">Personal page:</label></td>
+      <td class="field"><input type="text" id="personalPage" placeholder="http://"></td>
+    </tr>
+    <tr>
+      <td colspan=2>
+        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Sign the pledge</button>
+      </td>
+    </tr>
+  </table>
 </form>
 </div>
 <div id="thanks" style="display:none">
 <p>Thanks for signing the pledge! We'll manually review the pull request, and updates should go live within 24 hours.</p>
-<p><a href="http://neveragain.tech">Return to the pledge</a>
+<p>
+<a href="https://twitter.com/intent/tweet?text=I%20signed%20the%20neveragain.tech%20pledge.%20Join%20us.">Tweet to tell people you signed the pledge</a>
+</p>
+<p><a href="http://neveragain.tech/">Return to the pledge</a>
+</p>
+</iframe>
 </div>
 </section>
 

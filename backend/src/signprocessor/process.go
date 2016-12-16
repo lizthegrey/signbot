@@ -67,6 +67,8 @@ func EventLoop() {
 
 func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *github.Client) bool {
 	linkProfile := details["linkProfile"].(bool)
+	link := details["link"].(string)
+	personalPage := details["personalPage"].(string)
 	name := details["name"].(string)
 	title := details["title"].(string)
 	affiliation := details["affiliation"].(string)
@@ -104,16 +106,18 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		return false
 	}
 
-	if score := Score(handle, displayName, url, created, followers, following, tweets, egg, description); score < 0 {
+	if score := Score(handle, displayName, url, created, followers, following, tweets, egg, description, personalPage); score < 0 {
 		log.Printf("Not creating pull for %s (%s) due to score %d", uid, handle, score)
 		return false
 	}
 
-	body := fmt.Sprintf("Twitter user: https://twitter.com/%s\nDisplay name: %s\nURL: %s\nCreated: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\nTagline: %s", handle, displayName, url, created, followers, following, tweets, egg, description)
+	body := fmt.Sprintf("Twitter user: https://twitter.com/%s\nDisplay name: %s\nURL: %s\nCreated: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v\nTagline: %s\nPersonal page: %s", handle, displayName, url, created, followers, following, tweets, egg, description, personalPage)
 
 	var linkMd, affiliationMd, titleMd string
 	if linkProfile {
 		linkMd = fmt.Sprintf("  link: https://twitter.com/%s\n", handle)
+	} else if link != "" {
+		linkMd = fmt.Sprintf("  link: %s\n", link)
 	}
 	if affiliation != "" {
 		affiliationMd = fmt.Sprintf("  affiliation: \"%s\"\n", affiliation)
