@@ -143,7 +143,7 @@ Signature file contents:
 		url,
 		description,
 		personalPage,
-		fmt.Sprintf("```\n%s\n```", contents),
+		fmt.Sprintf("```\n%s```", contents),
 	)
 
 	// Ensure we are forking from a clean state.
