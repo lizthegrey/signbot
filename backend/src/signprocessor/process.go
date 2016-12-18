@@ -141,7 +141,7 @@ Signature file contents:
 		created, followers, following, tweets, egg,
 		displayName,
 		url,
-		description,
+		fmt.Sprintf("`%s`", description),
 		personalPage,
 		fmt.Sprintf("```\n%s```", contents),
 	)
