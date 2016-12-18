@@ -18,7 +18,7 @@
     table.form td { border: none; padding: 0.5em 0; }
     table.form .field { width: 20em; padding-left: 1em; }
     table.form .field input[type="text"] { width: 100%; }
-    table.form td.note { width: 30em; font-size: 90%; opacity: 0.6; }
+    table.form td.note { width: 30em; font-size: 80%; opacity: 0.6; }
   </style>
   <body>
     <div class="banner">
@@ -51,16 +51,16 @@
 <form>
   <table class="form" cellpadding=0 cellspacing=0>
     <tr>
-      <td><label for="name">Name:</label></td>
+      <td><label for="name">Name (required):</label></td>
       <td class="field"><input type="text" id="name"></td>
     </tr>
     <tr>
-      <td><label for="title">Title:</label></td>
-      <td class="field"><input type="text" id="title"></td>
+      <td><label for="affiliation">Affiliation:</label></td>
+      <td class="field"><input type="text" id="affiliation" placeholder="Your company, organization, etc."></td>
     </tr>
     <tr>
-      <td><label for="affiliation">Affiliation:</label></td>
-      <td class="field"><input type="text" id="affiliation"></td>
+      <td><label for="title">Title or Profession:</label></td>
+      <td class="field"><input type="text" id="title"></td>
     </tr>
     <tr>
       <td><label for="link">Link your signature to:</label></td>
@@ -72,16 +72,17 @@
     </tr>
     <tr>
       <td colspan=2 class="note">
-        <strong>Note:</strong> The name (and affiliation, if any) above
-        must accurately represent the owner of this Twitter account;
-        if we can't verify that, we can't accept your signature.
-        If you have an established homepage, blog, Keybase, or LinkedIn profile
-        that refers to this Twitter account,
+        To accept your signature we need to
+        verify that this Twitter account matches the name and affiliation
+        provided.
+        <br /><span style="width: 2em; display: inline-block;"></span>If
+        you have an established homepage, blog,
+        Keybase, or LinkedIn profile that refers to this Twitter account,
         please provide the URL to help us verify you quickly.
       </td>
     </tr>
     <tr>
-      <td><label for="personalPage">Personal page:</label></td>
+      <td><label for="personalPage">Personal page for verification:</label></td>
       <td class="field"><input type="text" id="personalPage" placeholder="http://"></td>
     </tr>
     <tr>
