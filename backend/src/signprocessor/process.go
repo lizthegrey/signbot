@@ -123,7 +123,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	if title != "" {
 		titleMd = fmt.Sprintf("  occupation_title: \"%s\"\n", title)
 	}
-	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---", name, linkMd, affiliationMd, titleMd)
+	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---\n", name, linkMd, affiliationMd, titleMd)
 
 	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
 Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
@@ -141,9 +141,9 @@ Signature file contents:
 		created, followers, following, tweets, egg,
 		displayName,
 		url,
-		description,
+		fmt.Sprintf("`%s`", description),
 		personalPage,
-		fmt.Sprintf("```\n%s\n```", contents),
+		fmt.Sprintf("```\n%s```", contents),
 	)
 
 	// Ensure we are forking from a clean state.

@@ -18,12 +18,9 @@
     table.form td { border: none; padding: 0.5em 0; }
     table.form .field { width: 20em; padding-left: 1em; }
     table.form .field input[type="text"] { width: 100%; }
-    table.form td.note { width: 30em; font-size: 90%; opacity: 0.6; }
+    table.form td.note { width: 30em; font-size: 80%; opacity: 0.6; }
   </style>
   <body>
-    <div id="legal">
-      <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. <strong>By continuing, you agree to be bound by them.</strong> They're short, in plain English, and explain what will happen with your data.</p>
-    </div>
     <div class="banner">
       <section class="page-header">
         <h1 class="project-name">Sign the neveragain.tech Pledge</h1>
@@ -31,8 +28,18 @@
     </div>
 
 <section class="main-content">
+<div id="legal">
+  <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. By continuing, you agree to be bound by them. They're short, in plain English, and explain what will happen with your data.</p>
+</div>
+
 <div id="signin" style="display: none">
-  <p><a href="http://neveragain.tech/">Read the text of the pledge</a>.</p>
+  <p>You can also
+  <a href="http://neveragain.tech/">read the text of the pledge here</a>
+  if you haven't already.
+  </p>
+  <p><div id="disclaimer" style="background-color: #FF8888; margin-left: 20px; margin-right: 20px; padding-bottom: 8px; padding-left: 8px; padding-right: 8px; padding-top: 8px;">
+    Note: Your Twitter identity will be stored in Github and available to the public. If you wish to keep this information private, please sign using <a href="https://github.com/neveragaindottech/neveragaindottech.github.io/blob/master/README.md">another method</a>
+  </div></p>
 
   <button id="sign" onclick="firebase.auth().signInWithRedirect(provider)">To sign the pledge, sign in using Twitter</button>
 
@@ -44,16 +51,16 @@
 <form>
   <table class="form" cellpadding=0 cellspacing=0>
     <tr>
-      <td><label for="name">Name:</label></td>
+      <td><label for="name">Name (required):</label></td>
       <td class="field"><input type="text" id="name"></td>
     </tr>
     <tr>
-      <td><label for="title">Title:</label></td>
-      <td class="field"><input type="text" id="title"></td>
+      <td><label for="affiliation">Affiliation:</label></td>
+      <td class="field"><input type="text" id="affiliation" placeholder="Your company, organization, etc."></td>
     </tr>
     <tr>
-      <td><label for="affiliation">Affiliation:</label></td>
-      <td class="field"><input type="text" id="affiliation"></td>
+      <td><label for="title">Title or Profession:</label></td>
+      <td class="field"><input type="text" id="title"></td>
     </tr>
     <tr>
       <td><label for="link">Link your signature to:</label></td>
@@ -65,21 +72,22 @@
     </tr>
     <tr>
       <td colspan=2 class="note">
-        <strong>Note:</strong> The name (and affiliation, if any) above
-        must accurately represent the owner of this Twitter account;
-        if we can't verify that, we can't accept your signature.
-        If you have an established homepage, blog, Keybase, or LinkedIn profile
-        that refers to this Twitter account,
+        To accept your signature we need to
+        verify that this Twitter account matches the name and affiliation
+        provided.
+        <br /><span style="width: 2em; display: inline-block;"></span>If
+        you have an established homepage, blog,
+        Keybase, or LinkedIn profile that refers to this Twitter account,
         please provide the URL to help us verify you quickly.
       </td>
     </tr>
     <tr>
-      <td><label for="personalPage">Personal page:</label></td>
+      <td><label for="personalPage">Personal page for verification:</label></td>
       <td class="field"><input type="text" id="personalPage" placeholder="http://"></td>
     </tr>
     <tr>
       <td colspan=2>
-        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, twitterToken: token, twitterSecret: secret}); document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block'">Sign the pledge</button>
+        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, twitterToken: token, twitterSecret: secret}).then(function() {document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block';var err = document.getElementById('errDiv'); if (err != null) {err.style.display = 'none';}}).catch(function (error) {var errDiv = document.createElement('DIV');errDiv.id = 'errDiv';errDiv.appendChild(document.createTextNode(error.message)); document.body.appendChild(errDiv);});">Sign the pledge</button>
       </td>
     </tr>
   </table>
@@ -92,7 +100,6 @@
 </p>
 <p><a href="http://neveragain.tech/">Return to the pledge</a>
 </p>
-</iframe>
 </div>
 </section>
 
