@@ -118,7 +118,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		linkMd = fmt.Sprintf("  link: %s\n", link)
 	}
 	if affiliation != "" {
-		affiliationMd = fmt.Sprintf("  affiliation: \"%s\"\n", affiliation)
+		affiliationMd = fmt.Sprintf("  organization: \"%s\"\n", affiliation)
 	}
 	if title != "" {
 		titleMd = fmt.Sprintf("  occupation_title: \"%s\"\n", title)
