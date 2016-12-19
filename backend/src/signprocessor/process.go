@@ -125,7 +125,7 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	}
 	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---\n", name, linkMd, affiliationMd, titleMd)
 
-	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
+	body := fmt.Sprintf(`Twitter user: [https://twitter.com/%s](https://twitter.com/%s)
 Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
 
 Twitter profile fields:
@@ -137,7 +137,7 @@ Personal page: %s
 
 Signature file contents:
 %s`,
-		handle,
+		handle, handle,
 		created, followers, following, tweets, egg,
 		displayName,
 		url,
