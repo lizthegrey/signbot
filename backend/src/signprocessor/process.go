@@ -72,6 +72,8 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	name := details["name"].(string)
 	title := details["title"].(string)
 	affiliation := details["affiliation"].(string)
+	orgDescription := details["orgDescription"].(string)
+	orgCountry := details["orgCountry"].(string)
 
 	secret := details["twitterSecret"].(string)
 	token := details["twitterToken"].(string)
@@ -134,6 +136,8 @@ Website: %s
 Tagline: %s
 
 Personal page: %s
+Organization description: %s
+Organization country: %s
 
 Signature file contents:
 %s`,
@@ -143,6 +147,8 @@ Signature file contents:
 		url,
 		fmt.Sprintf("`%s`", description),
 		personalPage,
+		orgDescription,
+		orgCountry,
 		fmt.Sprintf("```\n%s```", contents),
 	)
 
