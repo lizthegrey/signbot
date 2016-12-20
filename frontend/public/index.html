@@ -18,7 +18,10 @@
     table.form td { border: none; padding: 0.5em 0; }
     table.form .field { width: 20em; padding-left: 1em; }
     table.form .field input[type="text"] { width: 100%; }
-    table.form td.note { width: 30em; font-size: 80%; opacity: 0.6; }
+    table.form td.note { width: 30em; opacity: 1; padding-top: 1em; }
+    table.form td.note div { font-style: normal; background: #ffc; padding: 0.5em 1em; }
+    button { margin-top: 1em !important; }
+    input[disabled], button[disabled] { color: #aaa; }
   </style>
   <body>
     <div class="banner">
@@ -30,6 +33,10 @@
 <section class="main-content">
 <div id="legal">
   <p>Please read this site's <a href="/legal.html">Terms of Service and Privacy Policy</a>. By continuing, you agree to be bound by them. They're short, in plain English, and explain what will happen with your data.</p>
+</div>
+
+<div id="loading">
+  (Loading, just a moment...)
 </div>
 
 <div id="signin" style="display: none">
@@ -48,22 +55,31 @@
     This includes students planning on going into tech fields, self-employed people, and owners of US-based businesses.
   </p>
 
-  <button id="sign" onclick="firebase.auth().signInWithRedirect(provider)">To sign the pledge, sign in using Twitter</button>
+  <button id="sign" onclick="sign_in()">To sign the pledge, sign in using Twitter</button>
 
   <p>If you don't have a Twitter account, see the <a href="https://github.com/neveragaindottech/neveragaindottech.github.io/blob/master/README.md">instructions for other ways to sign the pledge</a>.</p>
 </div>
 
 <div id="signed" style="display:none">
-<p>Thanks.  Please fill in the following information to add or update your signature.  Organization, title, and link are encouraged but optional.</p>
+  <p>Thanks for signing in.</p>
 <form>
   <table class="form" cellpadding=0 cellspacing=0>
     <tr>
-      <td><label for="name">Name (required):</label></td>
-      <td class="field"><input type="text" id="name"></td>
+      <td colspan=2 class="note">
+        <div>
+          <strong>Step 1.</strong>
+          Please fill in the following information
+          to add or update your signature.
+          Organization, title, and link are encouraged but optional.
+        </div>
     </tr>
     <tr>
-      <td><label for="affiliation">Organization:</label></td>
-      <td class="field"><input type="text" id="affiliation" placeholder="Your company or organization" oninput="document.getElementById('orgDetails').style.display = document.getElementById('affiliation').value.trim() ? 'table-row-group' : 'none'"></td>
+      <td><label for="name">Name (required):</label></td>
+      <td class="field"><input type="text" id="name" oninput="update_fields()"></td>
+    </tr>
+    <tr>
+      <td><label for="organization">Organization:</label></td>
+      <td class="field"><input type="text" id="organization" placeholder="Your company or organization" oninput="update_fields()"></td>
     </tr>
     <tr>
       <td><label for="title">Title:</label></td>
@@ -75,43 +91,49 @@
     </tr>
     <tr>
       <td><label for="linkProfile">Or, link to your Twitter profile</label></td>
-      <td class="field"><input type="checkbox" id="linkProfile" onclick="var checked = document.getElementById('linkProfile').checked; var link = document.getElementById('link'); link.value = checked ? '(link will go to your Twitter profile)' : ''; link.disabled = checked;"></td>
+      <td class="field"><input type="checkbox" id="linkProfile" onclick="update_fields()"></td>
     </tr>
     <tr>
       <td colspan=2 class="note">
         <div>
-        To accept your signature,
-        we need to verify that your Twitter account
-        matches the name and organization provided.</div>
-        <div style="margin-top: 0.7em">
-        If you have an established homepage, blog,
-        Keybase, or LinkedIn profile that refers to your Twitter account,
-        please provide the URL to help us verify you quickly.</div>
+          <strong>Step 2.</strong>
+          Please provide the URL to an established personal page
+          <strong>containing a link to your Twitter account</strong>,
+          such as a homepage, blog, Keybase page, or LinkedIn profile.
+        </div>
+        <div>
+          To show your signature on our website,
+          we need to verify that your Twitter account
+          is accurately represented by the name and organization provided.
+        </div>
       </td>
     </tr>
     <tr>
       <td><label for="personalPage">Personal page for verification:</label></td>
-      <td class="field"><input type="text" id="personalPage" placeholder="http://"></td>
+      <td class="field"><input type="text" id="personalPage" placeholder="http://" oninput="update_fields()"></td>
     </tr>
     <tbody id="orgDetails" style="display: none">
       <tr>
         <td colspan=2 class="note">
-          Please help us verify that your organization
-          is a US-based tech company or organization or that you are based in the US.
+          <div>
+            <strong>Step 3.</strong>
+            Please help us verify that your organization
+            is a US-based tech company or organization, or that you are based in the US.
+          </div>
         </td>
       </tr>
       <tr valign="bottom">
         <td><label for="orgDescription">Describe what your<br>organization does:</label></td>
-        <td class="field"><input type="text" id="orgDescription" placeholder="A very brief description"></td>
+        <td class="field"><input type="text" id="orgDescription" placeholder="A very brief description" oninput="update_fields()"></td>
       </tr>
       <tr valign="bottom">
         <td><label for="orgCountry">In what country is<br>your organization based:</label></td>
-        <td class="field"><input type="text" id="orgCountry" placeholder="Country"></td>
+        <td class="field"><input type="text" id="orgCountry" placeholder="Country" oninput="update_fields()"></td>
       </tr>
     </tbody>
     <tr>
       <td colspan=2>
-        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, orgDescription: document.getElementById('orgDescription').value, orgCountry: document.getElementById('orgCountry').value, twitterToken: token, twitterSecret: secret}).then(function() {document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block';var err = document.getElementById('errDiv'); if (err != null) {err.style.display = 'none';}}).catch(function (error) {var errDiv = document.createElement('DIV');errDiv.id = 'errDiv';errDiv.appendChild(document.createTextNode(error.message)); document.body.appendChild(errDiv);});">Sign the pledge</button>
+        <button type="button" id="pledge" onclick="submit_fields()" disabled>Sign the pledge</button>
       </td>
     </tr>
   </table>
@@ -124,6 +146,8 @@
 </p>
 <p><a href="http://neveragain.tech/">Return to the pledge</a>
 </p>
+</div>
+<div id="errDiv">
 </div>
 </section>
 
@@ -140,26 +164,85 @@
   firebase.initializeApp(config);
 
   var provider = new firebase.auth.TwitterAuthProvider();
+  var elements = {};
+  var element_names = [
+    'loading', 'signed', 'signin', 'thanks',
+    'name', 'organization', 'title', 'link', 'linkProfile', 'personalPage',
+    'orgDetails', 'orgDescription', 'orgCountry',
+    'errDiv', 'pledge'
+  ];
+  for (var i = 0; i < element_names.length; i++) {
+    var name = element_names[i];
+    elements[name] = document.getElementById(name);
+  }
+
   firebase.auth().getRedirectResult().then(function(result) {
+    elements.loading.style.display = 'none';
     if (result.credential) {
       // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
       // You can use these server side with your app's credentials to access the Twitter API.
       token = result.credential.accessToken;
       secret = result.credential.secret;
-      document.getElementById('signed').style.display = 'block';
+      elements.signed.style.display = 'block';
     } else {
       // Not signed in.
-      document.getElementById('signin').style.display = 'block';
+      elements.signin.style.display = 'block';
     }
   }).catch(function(error) {
     // Error signing in.
-    var errDiv = document.createElement("DIV");
-    errDiv.appendChild(document.createTextNode(error.message));
-    document.body.appendChild(errDiv);
+    elements.errDiv.innerText = error.message;
 
     // Not signed in.
-    document.getElementById('signin').style.display = 'block';
+    elements.signin.style.display = 'block';
   });
+
+  function sign_in() {
+    firebase.auth().signInWithRedirect(provider);
+  }
+
+  function update_fields() {
+    var nameEntered = elements.name.value.trim();
+    var orgEntered = elements.organization.value.trim();
+    var titleEntered = elements.title.value.trim();
+    var personalPageEntered = elements.personalPage.value.trim();
+    var onlyNameWithTwitterLink = (!orgEntered && !titleEntered && elements.linkProfile.checked);
+    var orgDetailsEntered = (elements.orgDescription.value.trim() && elements.orgCountry.value.trim());
+
+    elements.link.disabled = elements.linkProfile.checked;
+    elements.link.placeholder = elements.linkProfile.checked ? '(link will go to your Twitter profile)' : 'http://';
+    if (elements.linkProfile.checked) {
+      elements.link.value = '';
+    }
+
+    elements.orgDetails.style.display = orgEntered ? 'table-row-group' : 'none';
+    elements.pledge.disabled = !(
+      nameEntered &&
+      (orgEntered ? orgDetailsEntered : true) &&
+      (onlyNameWithTwitterLink || personalPageEntered)
+    );
+  }
+
+  function submit_fields() {
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+      name: elements.name.value,
+      affiliation: elements.organization.value,
+      title: elements.title.value,
+      link: elements.link.value,
+      linkProfile: elements.linkProfile.checked,
+      personalPage: elements.personalPage.value,
+      orgDescription: elements.orgDescription.value,
+      orgCountry: elements.orgCountry.value,
+      twitterToken: token,
+      twitterSecret: secret
+    }).then(function() {
+      elements.signed.style.display = 'none';
+      elements.thanks.style.display = 'block';
+      elements.errDiv.innerText = '';
+      elements.errDiv.style.display = 'none';
+    }).catch(function (error) {
+      elements.errDiv.innerText = error.message;
+    });
+  }
 </script>
 
 </body>
