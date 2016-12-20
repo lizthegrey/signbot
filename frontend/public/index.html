@@ -106,6 +106,12 @@
           we need to verify that your Twitter account
           is accurately represented by the name and organization provided.
         </div>
+        <div>
+          If you don't have any other public presence on the web,
+          we'll accept a signature consisting of just your full name
+          and a link to your Twitter profile (check the box above),
+          if your Twitter profile is established and shows the same name.
+        </div>
       </td>
     </tr>
     <tr>
@@ -178,6 +184,8 @@
 
   firebase.auth().getRedirectResult().then(function(result) {
     elements.loading.style.display = 'none';
+    elements.errDiv.style.display = 'none';
+
     if (result.credential) {
       // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
       // You can use these server side with your app's credentials to access the Twitter API.
@@ -191,6 +199,7 @@
   }).catch(function(error) {
     // Error signing in.
     elements.errDiv.innerText = error.message;
+    elements.errDiv.style.display = 'block';
 
     // Not signed in.
     elements.signin.style.display = 'block';
@@ -238,9 +247,10 @@
       elements.signed.style.display = 'none';
       elements.thanks.style.display = 'block';
       elements.errDiv.innerText = '';
-      elements.errDiv.style.display = 'none';
     }).catch(function (error) {
       elements.errDiv.innerText = error.message;
+      elements.errDiv.style.display = 'block';
+      elements.thanks.style.display = 'none';
     });
   }
 </script>
