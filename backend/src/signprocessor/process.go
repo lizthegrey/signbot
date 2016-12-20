@@ -72,6 +72,8 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 	name := details["name"].(string)
 	title := details["title"].(string)
 	affiliation := details["affiliation"].(string)
+	orgDescription := details["orgDescription"].(string)
+	orgCountry := details["orgCountry"].(string)
 
 	secret := details["twitterSecret"].(string)
 	token := details["twitterToken"].(string)
@@ -118,14 +120,14 @@ func process(uid string, details map[string]interface{}, t *oauth.Consumer, gh *
 		linkMd = fmt.Sprintf("  link: %s\n", link)
 	}
 	if affiliation != "" {
-		affiliationMd = fmt.Sprintf("  affiliation: \"%s\"\n", affiliation)
+		affiliationMd = fmt.Sprintf("  organization: \"%s\"\n", affiliation)
 	}
 	if title != "" {
 		titleMd = fmt.Sprintf("  occupation_title: \"%s\"\n", title)
 	}
 	contents := fmt.Sprintf("---\n  name: \"%s\"\n%s%s%s---\n", name, linkMd, affiliationMd, titleMd)
 
-	body := fmt.Sprintf(`Twitter user: https://twitter.com/%s
+	body := fmt.Sprintf(`Twitter user: [https://twitter.com/%s](https://twitter.com/%s)
 Created: %v, Followers: %d, Following: %d, Tweets: %d, Egg: %v
 
 Twitter profile fields:
@@ -134,15 +136,19 @@ Website: %s
 Tagline: %s
 
 Personal page: %s
+Organization description: %s
+Organization country: %s
 
 Signature file contents:
 %s`,
-		handle,
+		handle, handle,
 		created, followers, following, tweets, egg,
 		displayName,
 		url,
 		fmt.Sprintf("`%s`", description),
 		personalPage,
+		orgDescription,
+		orgCountry,
 		fmt.Sprintf("```\n%s```", contents),
 	)
 

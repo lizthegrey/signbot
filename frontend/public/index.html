@@ -41,13 +41,20 @@
     Note: Your Twitter identity will be stored in Github and available to the public. If you wish to keep this information private, please sign using <a href="https://github.com/neveragaindottech/neveragaindottech.github.io/blob/master/README.md">another method</a>
   </div></p>
 
+  <p>This pledge is for people who work in the US tech industry.
+    This doesn't mean you have to be a programmer;
+    anyone who is a tech worker by profession,
+    either in the US or working at a US-based organization, can sign.
+    This includes students planning on going into tech fields, self-employed people, and owners of US-based businesses.
+  </p>
+
   <button id="sign" onclick="firebase.auth().signInWithRedirect(provider)">To sign the pledge, sign in using Twitter</button>
 
   <p>If you don't have a Twitter account, see the <a href="https://github.com/neveragaindottech/neveragaindottech.github.io/blob/master/README.md">instructions for other ways to sign the pledge</a>.</p>
 </div>
 
 <div id="signed" style="display:none">
-<p>Thanks.  Please fill in the following information to add or update your signature.  Title, affiliation, and link are encouraged but optional.</p>
+<p>Thanks.  Please fill in the following information to add or update your signature.  Organization, title, and link are encouraged but optional.</p>
 <form>
   <table class="form" cellpadding=0 cellspacing=0>
     <tr>
@@ -55,12 +62,12 @@
       <td class="field"><input type="text" id="name"></td>
     </tr>
     <tr>
-      <td><label for="affiliation">Affiliation:</label></td>
-      <td class="field"><input type="text" id="affiliation" placeholder="Your company, organization, etc."></td>
+      <td><label for="affiliation">Organization:</label></td>
+      <td class="field"><input type="text" id="affiliation" placeholder="Your company or organization" oninput="document.getElementById('orgDetails').style.display = document.getElementById('affiliation').value.trim() ? 'table-row-group' : 'none'"></td>
     </tr>
     <tr>
-      <td><label for="title">Title or Profession:</label></td>
-      <td class="field"><input type="text" id="title"></td>
+      <td><label for="title">Title:</label></td>
+      <td class="field"><input type="text" id="title" placeholder="Your profession or job title"></td>
     </tr>
     <tr>
       <td><label for="link">Link your signature to:</label></td>
@@ -72,22 +79,39 @@
     </tr>
     <tr>
       <td colspan=2 class="note">
-        To accept your signature we need to
-        verify that this Twitter account matches the name and affiliation
-        provided.
-        <br /><span style="width: 2em; display: inline-block;"></span>If
-        you have an established homepage, blog,
-        Keybase, or LinkedIn profile that refers to this Twitter account,
-        please provide the URL to help us verify you quickly.
+        <div>
+        To accept your signature,
+        we need to verify that your Twitter account
+        matches the name and organization provided.</div>
+        <div style="margin-top: 0.7em">
+        If you have an established homepage, blog,
+        Keybase, or LinkedIn profile that refers to your Twitter account,
+        please provide the URL to help us verify you quickly.</div>
       </td>
     </tr>
     <tr>
       <td><label for="personalPage">Personal page for verification:</label></td>
       <td class="field"><input type="text" id="personalPage" placeholder="http://"></td>
     </tr>
+    <tbody id="orgDetails" style="display: none">
+      <tr>
+        <td colspan=2 class="note">
+          Please help us verify that your organization
+          is a US-based tech company or organization or that you are based in the US.
+        </td>
+      </tr>
+      <tr valign="bottom">
+        <td><label for="orgDescription">Describe what your<br>organization does:</label></td>
+        <td class="field"><input type="text" id="orgDescription" placeholder="A very brief description"></td>
+      </tr>
+      <tr valign="bottom">
+        <td><label for="orgCountry">In what country is<br>your organization based:</label></td>
+        <td class="field"><input type="text" id="orgCountry" placeholder="Country"></td>
+      </tr>
+    </tbody>
     <tr>
       <td colspan=2>
-        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, twitterToken: token, twitterSecret: secret}).then(function() {document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block';var err = document.getElementById('errDiv'); if (err != null) {err.style.display = 'none';}}).catch(function (error) {var errDiv = document.createElement('DIV');errDiv.id = 'errDiv';errDiv.appendChild(document.createTextNode(error.message)); document.body.appendChild(errDiv);});">Sign the pledge</button>
+        <button type="button" id="pledge" onclick="firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({name: document.getElementById('name').value, title: document.getElementById('title').value, affiliation: document.getElementById('affiliation').value, link: document.getElementById('link').value, linkProfile: document.getElementById('linkProfile').checked, personalPage: document.getElementById('personalPage').value, orgDescription: document.getElementById('orgDescription').value, orgCountry: document.getElementById('orgCountry').value, twitterToken: token, twitterSecret: secret}).then(function() {document.getElementById('signed').style.display = 'none'; document.getElementById('thanks').style.display = 'block';var err = document.getElementById('errDiv'); if (err != null) {err.style.display = 'none';}}).catch(function (error) {var errDiv = document.createElement('DIV');errDiv.id = 'errDiv';errDiv.appendChild(document.createTextNode(error.message)); document.body.appendChild(errDiv);});">Sign the pledge</button>
       </td>
     </tr>
   </table>
